@@ -31,3 +31,9 @@
 *euc-kr은 왜 쓰는 걸까?*
 
 자꾸 까먹는 데, 커밋 좀 자주하자. 커밋안하면 하라고 알려주는 알림 프로그램 있으면 좋겠다.
+
+참고
+몰랐다가 다 끝나고 라이브러리 추천받았다
+
+크롬기반
+[puppeteer 라이브러리](https://github.com/GoogleChrome/puppeteer)
