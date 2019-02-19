@@ -29,7 +29,7 @@ app.get('/run-crawl', async (req: Request, res: Response) => {
     const result = await crawler.crawl();
     // 페이지 데이터 저장
     result.forEach((book: IBook) => {
-      filemanager.append([book.imgUrl, book.title, book.price, book.score || '없음']);
+      filemanager.append([book.imgUrl, book.title, book.price || '안팔아', book.score || '없음']);
     });
     interactive.await(`page ${i}/${maxPage} crawled`);
     // 다음 페이지
