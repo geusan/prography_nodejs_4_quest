@@ -44,16 +44,20 @@ app.get('/run-crawl', async (req: Request, res: Response) => {
 
 app.get('/list', (_: Request, res: Response) => {
   const fileManager = new FileManager();
-  const result = fileManager.read();
+  try {
+    const result = fileManager.read();
+    res.json({
+      result: result.content.map((d: any) => ({
+        [result.header[0]]: d[0],
+        [result.header[1]]: d[1],
+        [result.header[2]]: d[2],
+        [result.header[3]]: d[3],
+      })),
+    });
+  } catch (e) {
+    res.status(412).send('must call /run-crawl first');
+  }
 
-  res.json({
-    result: result.content.map((d: any) => ({
-      [result.header[0]]: d[0],
-      [result.header[1]]: d[1],
-      [result.header[2]]: d[2],
-      [result.header[3]]: d[3],
-    })),
-  });
 });
 
 app.get('*', (_: Request, res: Response) => {
