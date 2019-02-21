@@ -2,7 +2,6 @@ import axios from 'axios';
 import iconv from 'iconv-lite';
 import jsdom, {JSDOM} from 'jsdom';
 import signale from 'signale';
-import { SeleniumDriver } from './SeleniumDriver';
 
 // 책 정보 구조 정의
 export interface IBook {
