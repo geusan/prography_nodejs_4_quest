@@ -1,14 +1,40 @@
 import express, { Request, Response } from 'express';
+import opn from 'opn';
 import signale, { Signale } from 'signale';
 import { Crawler, IBook } from './Crawler';
 import { FileManager } from './FileManager';
 
 const app = express();
 
-const HOST: string = process.env.HOST || '0.0.0.0';
+const HOST: string = process.env.HOST || 'localhost';
 const PORT: number = Number(process.env.PORT) || 3000;
 
 const interactive = new Signale({ interactive: true, scope: 'interactive' });
+
+app.get('/', (_: Request, res: Response) => {
+  res.send(`
+    <!doctype html>
+    <html>
+      <head>
+        <link href="https://fonts.googleapis.com/css?family=
+          Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width,
+          initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+      </head>
+      <body style="display: flex;align-items:center;justify-content:center;height:100vh;">
+        <div class="v-layout align-center">
+          <h1 class="display-3">Go Crawler!</h1>
+          <div class="layout">
+            <a class="headline teal--text darken-2" href="/run-crawl">1. run-crawl</a>
+            <div class="spacer"></div>
+            <a class="headline amber--text darken-2" href="/list">2. list</a>
+          </div>
+        </div>
+      </body>
+    </html>
+  `.replace(/\s{1,}/, ' '));
+});
 
 app.get('/run-crawl', async (req: Request, res: Response) => {
   const maxPage: number = Number(req.query.last) || 5;
@@ -66,4 +92,5 @@ app.get('*', (_: Request, res: Response) => {
 
 app.listen(PORT, HOST, () => {
   signale.info(`server is running on ${PORT}`);
+  opn(`http://${HOST}:${PORT}`);
 });
