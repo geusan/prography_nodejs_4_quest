@@ -36,7 +36,7 @@ app.get('/run-crawl', async (req: Request, res: Response) => {
     await crawler.next();
   }
   interactive.success('all of pages are crawled');
-  crawler.quit();
+
   // 파일로 저장
   filemanager.save();
   res.json({ msg: 'page crawling is ended' });

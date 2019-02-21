@@ -1,4 +1,5 @@
 import axios from 'axios';
+import iconv from 'iconv-lite';
 import jsdom, {JSDOM} from 'jsdom';
 import signale from 'signale';
 import { SeleniumDriver } from './SeleniumDriver';
@@ -13,16 +14,12 @@ export interface IBook {
 
 export class Crawler {
   private baseUrl: string;
-  private documentLoader: SeleniumDriver;
   private currentDom: JSDOM;
   private endpoint = '';
   private currentPage = 1;
 
-  // private readonly encode: Iconv.Iconv = new Iconv('euc-kr', 'utf-8');
-
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
-    this.documentLoader = new SeleniumDriver();
   }
 
   /**
@@ -73,7 +70,6 @@ export class Crawler {
       if (node.querySelector('.title a')) {
         title = node.querySelector('.title a').textContent
           .replace(/\s{1,}/g, ' ').replace(/,/g, '').trim();
-        // signale.log(encoding, title);
       }
       // 평점 가져오기
       let score;
@@ -94,13 +90,13 @@ export class Crawler {
   }
 
   public async get(url: string, params: { [key: string]: any }) {
-    const html = await this.documentLoader.get(this.baseUrl + url, params);
-    this.currentDom = new JSDOM(html);
-    return html;
-  }
-
-  public quit() {
-    this.documentLoader.quit();
+    const res = await await axios.create({ baseURL: this.baseUrl })
+      .get(url, {
+        params,
+        responseType: 'arraybuffer',
+      });
+    this.currentDom = new JSDOM(iconv.decode(new Buffer(res.data), 'EUC-KR'));
+    return res.data;
   }
 
 }
