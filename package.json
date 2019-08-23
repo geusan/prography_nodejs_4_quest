@@ -16,7 +16,7 @@
   "author": "dnay2k@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "express": "^4.16.4",
     "iconv": "^2.3.2",
     "jsdom": "^13.2.0",
